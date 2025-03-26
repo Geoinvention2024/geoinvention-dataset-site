@@ -1,78 +1,14 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8" />
-  <title>数据集列表</title>
-  <script type="module" src="./main.js"></script>
-</head>
-<body>
-  <h1>欢迎访问数据集</h1>
-  <p>以下是可下载的数据集列表：</p>
+---
+layout: default
+title: 所有数据集
+---
 
-  <ul>
+<h1>🗂 数据集总览</h1>
+<ul>
+  {% for dataset in site.datasets %}
     <li>
-      数据集 A -
-      <a href="#" onclick="downloadFile('dataset-a.zip', 'https://your-data-server.com/dataset-a.zip')">点击下载</a>
+      <a href="{{ dataset.url }}">{{ dataset.title }}</a>
+      - <code>{{ dataset.filename }}</code>
     </li>
-    <li>
-      数据集 B -
-      <a href="#" onclick="downloadFile('dataset-b.zip', 'https://your-data-server.com/dataset-b.zip')">点击下载</a>
-    </li>
-  </ul>
-
-  <p><button onclick="logout()">退出登录</button></p>
-
-  <script type="module">
-    import { auth, db } from './main.js';
-    import {
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-    import {
-      collection,
-      addDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-    // 检查登录状态
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        alert("请先登录！");
-        window.location.href = "index.html";
-      }
-    });
-
-    // 下载函数
-    window.downloadFile = async function (filename, url) {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("未登录，无法记录下载！");
-        return;
-      }
-
-      // 写入 Firestore 日志
-      try {
-        await addDoc(collection(db, "downloads"), {
-          userEmail: user.email,
-          filename: filename,
-          timestamp: serverTimestamp()
-        });
-        console.log("下载记录已写入");
-      } catch (err) {
-        console.error("写入失败: ", err);
-      }
-
-      // 执行下载
-      window.location.href = url;
-    };
-
-    // 退出登录
-    window.logout = () => {
-      signOut(auth).then(() => {
-        alert("已退出");
-        window.location.href = "index.html";
-      });
-    };
-  </script>
-</body>
-</html>
+  {% endfor %}
+</ul>

@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<h1>{{ page.title }}</h1>
+<p><strong>文件名：</strong> {{ page.filename }}</p>
+<p><strong>描述：</strong> {{ page.description }}</p>
+
+<div>
+  {{ content }}
+</div>
+
+<p>
+  <a href="{{ page.download_url }}" target="_blank">📥 下载数据集</a>
+</p>
