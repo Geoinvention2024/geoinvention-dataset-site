@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }} - GeoInvention</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | GeoInvention Dataset</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-  <nav>
-    <a href="/index.html">首页</a> |
-    <a href="/datasets.html">所有数据集</a>
-  </nav>
-  <hr>
+  {% include navigation.html %}
+
   <main>
     {{ content }}
   </main>
+
+  <!-- <script type="module">
+    import { auth } from './main.js';
+    
+    // Check authentication on all pages
+    auth.onAuthStateChanged((user) => {
+      if (!user && !window.location.pathname.includes('login.html')) {
+        sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
+        window.location.href = '/login.html';
+      }
+    });
+  </script> -->
 </body>
 </html>

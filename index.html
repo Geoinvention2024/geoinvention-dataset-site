@@ -1,57 +1,13 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8" />
-  <title>GeoInvention 数据集中心 - 登录/注册</title>
-  <script type="module" src="./main.js"></script>
-</head>
-<body>
-  <h1>GeoInvention 数据集中心</h1>
-  <p>请使用邮箱和密码注册或登录</p>
+---
+layout: default
+---
 
-  <label>邮箱: <input type="email" id="email"></label><br>
-  <label>密码: <input type="password" id="password"></label><br><br>
+<section class="hero">
+  <div class="hero-wrapper">
+    <h1 class="mb-3">Welcome to GeoInvention Datasets</h1>
 
-  <button id="registerBtn">注册</button>
-  <button id="loginBtn">登录</button>
+    <p class="mb-4">Access our collection of premium geospatial datasets</p>
 
-  <script type="module">
-    import { auth } from './main.js';
-    import {
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-
-    document.getElementById("registerBtn").addEventListener("click", async () => {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          emailInput.value,
-          passwordInput.value
-        );
-        alert("注册成功！");
-        window.location.href = "datasets.html";
-      } catch (error) {
-        alert("注册失败: " + error.message);
-      }
-    });
-
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          emailInput.value,
-          passwordInput.value
-        );
-        alert("登录成功！");
-        window.location.href = "datasets.html";
-      } catch (error) {
-        alert("登录失败: " + error.message);
-      }
-    });
-  </script>
-</body>
-</html>
+    <a href="/datasets.html" class="btn">Browse Datasets</a>
+  </div>
+</section>

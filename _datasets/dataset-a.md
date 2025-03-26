@@ -13,4 +13,6 @@ description: >
 - 格式：.zip 包含 CSV 和图片
 - 用途：可用于地质建模、AI训练等
 
-👉 [立即下载]({{ page.download_url }})
+这是我修改的内容
+
+<!-- 👉 [立即下载]({{ page.download_url }}) -->

@@ -1,14 +1,103 @@
 ---
 layout: default
-title: 所有数据集
 ---
 
-<h1>🗂 数据集总览</h1>
-<ul>
-  {% for dataset in site.datasets %}
-    <li>
-      <a href="{{ dataset.url }}">{{ dataset.title }}</a>
-      - <code>{{ dataset.filename }}</code>
-    </li>
-  {% endfor %}
-</ul>
+<section class="datasets-section">
+  <div class="datasets-wrapper">
+  <h1>Dataset List</h1>
+  <div id="auth-status"></div>
+    <div class="datasets-grid">
+      {% for dataset in site.datasets %}
+      <div class="dataset-card">
+        <h2>{{ dataset.title }}</h2>
+        <p>{{ dataset.description }}</p>
+        <a
+          href="{{ dataset.url }}"
+          class="btn"
+          data-dataset-id="{{ dataset.id }}"
+          >Download</a
+        >
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script type="module">
+  import { auth } from "./main.js";
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp,
+  } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  // Check authentication status
+  auth.onAuthStateChanged((user) => {
+    const authStatus = document.getElementById("auth-status");
+
+    if (user) {
+      authStatus.innerHTML = `<p>Welcome, ${user.email}</p>`;
+    }
+
+    // Download requires login
+    document.querySelectorAll(".dataset-card .btn").forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        if (!auth.currentUser) {
+          sessionStorage.setItem(
+            "redirectAfterLogin",
+            window.location.pathname
+          );
+          window.location.href = "login.html";
+          return;
+        }
+
+        const db = getFirestore();
+        const datasetId = e.target.dataset.datasetId;
+
+        try {
+          await setDoc(doc(db, "downloads", Date.now().toString()), {
+            userId: auth.currentUser.uid,
+            userEmail: auth.currentUser.email,
+            datasetId: datasetId,
+            timestamp: serverTimestamp(),
+          });
+
+          window.location.href = e.target.href;
+        } catch (error) {
+          console.error("Failed to record download:", error);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .datasets-section {
+    padding: 2rem 0;
+  }
+
+  .datasets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .dataset-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .auth-alert {
+    background: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+</style>

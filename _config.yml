@@ -3,7 +3,32 @@ description: "一个支持 Markdown 自动生成的数据集平台"
 baseurl: "" # 如果你在子路径发布，比如 /repo-name，则写 "/repo-name"
 url: "https://你的用户名.github.io" # GitHub Pages 地址
 
-# theme: minima
+remote_theme: pmarsceill/just-the-docs
+plugins:
+  - jekyll-remote-theme
+
+# 主题配置
+just_the_docs:
+  # 启用多级导航
+  nav_fold: true  
+  # 自定义颜色
+  color_scheme: slate
+  
+  # 主导航配置
+  nav_items:
+    - title: 首页
+      url: /
+    - title: 数据集
+      url: /datasets.html
+      children:
+        - title: 数据集A
+          url: /datasets/dataset-a/
+        - title: 数据集B
+          url: /datasets/dataset-b/
+    
+  aux_links:
+    "GitHub Repo":
+      - "//github.com/yourusername/geoinvention-dataset"
 
 collections:
   datasets:

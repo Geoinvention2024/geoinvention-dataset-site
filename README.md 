@@ -1,11 +1,10 @@
----
-title: 数据集 A
-filename: dataset-a.zip
-download_url: https://your-server.com/dataset-a.zip
----
 
-## 数据集 A 介绍
+# 本地测试
+- for mac 
 
-本数据集用于地质建模。包含 1GB 大小的 XYZ 数据。
-
-[👉 点击下载](https://your-server.com/dataset-a.zip)
+```bash
+brew install ruby
+echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+gem install jekyll bundler
+```
